@@ -1,0 +1,4 @@
+Comparison,Shared Rules,Exclusive to Slice,Jaccard Similarity
+Weekend Morning vs Global,14,8,0.6087
+Weekday Evening vs Global,11,0,0.7333
+Weekend Morning vs Weekday Evening,11,-,0.5

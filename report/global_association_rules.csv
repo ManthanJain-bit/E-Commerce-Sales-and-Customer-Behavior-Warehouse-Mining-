@@ -1,0 +1,10 @@
+antecedent,consequent,support,confidence,lift
+Organic Raspberries,Organic Strawberries,0.0134,0.2521,2.4256
+Organic Fuji Apple,Banana,0.0132,0.3868,2.107
+Organic Raspberries,Bag of Organic Bananas,0.0156,0.294,1.9954
+Honeycrisp Apple,Banana,0.0116,0.3653,1.99
+Organic Hass Avocado,Bag of Organic Bananas,0.0231,0.283,1.921
+Cucumber Kirby,Banana,0.0122,0.3288,1.7913
+Organic Avocado,Banana,0.0205,0.297,1.6181
+Strawberries,Banana,0.0162,0.2864,1.5601
+Large Lemon,Banana,0.016,0.2683,1.4617

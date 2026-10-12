@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Data & Warehouse artifacts
+data/raw/*
+!data/raw/.gitkeep
+data/warehouse/*.duckdb
+data/warehouse/*.duckdb.wal
+data/warehouse/*.parquet
+!data/warehouse/.gitkeep
+
+# OS & IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,23 @@
+Query,Config,Cold Run (s),Warm Mean (s),Warm Stdev (s)
+Q1_Dept_Rollup,C1_Normalized,0.287,0.1867,0.0037
+Q1_Dept_Rollup,C2_Galaxy,0.1924,0.1826,0.0023
+Q1_Dept_Rollup,C3_Parquet,0.3191,0.1733,0.0036
+Q1_Dept_Rollup,C4_PreAgg,0.0034,0.0021,0.0002
+Q2_Dept_Day_Pivot,C1_Normalized,0.632,0.5766,0.0213
+Q2_Dept_Day_Pivot,C2_Galaxy,0.4163,0.3999,0.006
+Q2_Dept_Day_Pivot,C3_Parquet,0.5155,0.4256,0.0094
+Q2_Dept_Day_Pivot,C4_PreAgg,0.0075,0.0069,0.0013
+Q3_Dice_Reorder_Rate,C1_Normalized,0.1468,0.125,0.0046
+Q3_Dice_Reorder_Rate,C2_Galaxy,0.0616,0.0571,0.0008
+Q3_Dice_Reorder_Rate,C3_Parquet,0.1503,0.146,0.0014
+Q3_Dice_Reorder_Rate,C4_PreAgg,0.0198,0.0107,0.0003
+Q4_Top_20_Products,C1_Normalized,0.5389,0.5283,0.0162
+Q4_Top_20_Products,C2_Galaxy,0.5572,0.531,0.0264
+Q4_Top_20_Products,C3_Parquet,0.6798,0.6425,0.0038
+Q5_Cube_Dept_Time,C1_Normalized,0.7582,0.7997,0.0347
+Q5_Cube_Dept_Time,C2_Galaxy,0.3376,0.2784,0.0014
+Q5_Cube_Dept_Time,C3_Parquet,0.3736,0.4078,0.0504
+Q5_Cube_Dept_Time,C4_PreAgg,0.0115,0.0105,0.0005
+Q6_Customer_Aggregation,C1_Normalized,0.6768,0.6389,0.006
+Q6_Customer_Aggregation,C2_Galaxy,0.0273,0.0032,0.0003
+Q6_Customer_Aggregation,C3_Parquet,0.0196,0.0073,0.0004

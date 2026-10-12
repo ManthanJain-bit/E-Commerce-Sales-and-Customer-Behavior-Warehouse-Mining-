@@ -1,0 +1,9 @@
+Operation,Target,Rows,Latency (s)
+Roll-up,Dept -> Aisle -> Grand Total,156,0.789
+Drill-down,Produce -> Fresh Fruits -> SKUs,5,0.538
+Slice,Weekend Only (is_weekend=True),5,0.433
+Dice,2 Depts x Weekend x Hours 8-12,10,0.19
+Pivot,Dept x 7 Days of Week,5,0.465
+Cube,3 Depts x 4 Parts of Day Cube,20,0.24
+Grouping Sets,"(Dept, Wknd), (Dept), (Wknd), ()",9,0.312
+Pre-Agg Speedup,cube_dept_time vs fact_order_items,21,0.0162

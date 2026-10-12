@@ -1,0 +1,5 @@
+Min Support,Min Support (%),Frequent Itemsets,Apriori Latency (s),FP-Growth Latency (s),Speedup (Apriori / FP)
+0.05,5.0%,11,0.0414,0.2523,0.16
+0.03,3.0%,24,0.1612,0.264,0.61
+0.02,2.0%,61,0.7023,0.4682,1.5
+0.01,1.0%,161,5.8098,1.1107,5.23
