@@ -860,7 +860,6 @@ function renderMiningChart() {
 function initModelPage() {
   initGalaxyDiagram();
   renderTableInspector();
-  renderQualityChecks();
   renderDataDictionary();
 }
 
@@ -1109,37 +1108,6 @@ function renderTableInspector() {
 
   selector.addEventListener('change', update);
   update();
-}
-
-function renderQualityChecks() {
-  const container = document.getElementById('qualityChecksContainer');
-  if (!container) return;
-
-  const checks = [
-    { title: "1. Items Count Matches Staging", detail: "0 mismatch across 33.8M rows" },
-    { title: "2. Orphan Product Keys (dim_product FK)", detail: "0 orphans" },
-    { title: "3. Orphan Time Keys in Items (dim_time FK)", detail: "0 orphans" },
-    { title: "4. Orphan Time Keys in Orders (dim_time FK)", detail: "0 orphans" },
-    { title: "5. Orphan Customer Keys in Items (dim_customer FK)", detail: "0 orphans" },
-    { title: "6. Orphan Customer Keys in Orders (dim_customer FK)", detail: "0 orphans" },
-    { title: "7. Basket Size Consistency Check", detail: "0 discrepancies" },
-    { title: "8. Total Item Aggregation Equality", detail: "0 mismatch between facts and staging" },
-    { title: "9. Pre-Aggregate Cube Parity", detail: "0 difference with cube_dept_time" }
-  ];
-
-  let html = '';
-  checks.forEach(c => {
-    html += `
-      <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #F1F5F9;">
-        <div>
-          <div style="font-size:12.5px; font-weight:700; color:#0F172A;">${c.title}</div>
-          <div style="font-size:11px; color:#64748B;">${c.detail}</div>
-        </div>
-        <div style="color:#22A06B; font-weight:800; font-size:13px;">✅ PASSED</div>
-      </div>
-    `;
-  });
-  container.innerHTML = html;
 }
 
 function renderDataDictionary() {

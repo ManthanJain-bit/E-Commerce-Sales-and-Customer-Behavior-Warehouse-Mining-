@@ -897,59 +897,37 @@
         </div>
       </div>
 
-      <div class="grid-1-1">
-        
-        <!-- Table Inspector -->
-        <div class="story-card" id="tableInspectorCard">
-          <div class="card-top">
-            <div>
-              <div class="story-headline">Galaxy Constellation Schema Inspector</div>
-              <div class="story-greyline">Select a warehouse table to inspect its grain, row count, column definitions, and live samples.</div>
-            </div>
-          </div>
-
-          <div style="margin-bottom: 14px;">
-            <select id="tableSelector" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-light); font-size: 13.5px; font-weight: 600; color: var(--text-main);">
-              <option value="fact_order_items">fact_order_items (Fact: 33,819,106 rows)</option>
-              <option value="fact_orders">fact_orders (Fact: 3,346,083 orders)</option>
-              <option value="dim_product">dim_product (Dimension: 49,688 products)</option>
-              <option value="dim_customer">dim_customer (Dimension: 206,209 shoppers)</option>
-              <option value="dim_time">dim_time (Dimension: 168 time slots)</option>
-              <option value="cube_dept_time">cube_dept_time (Summary Cube: 22,480 cells)</option>
-              <option value="fact_rules">fact_rules (Data Mining Fact: 48 rules)</option>
-            </select>
-          </div>
-
-          <div id="tableDetailsBox" style="background:#F8FAFC; border:1px solid var(--border-light); border-radius:12px; padding:16px; margin-bottom:14px;">
-            <!-- Rendered via JS -->
-          </div>
-
-          <div style="font-size:13px; font-weight:700; color:var(--text-main); margin-bottom:6px;">Sample Rows:</div>
-          <div style="overflow-x: auto;">
-            <table class="clean-table" id="sampleRowsTable">
-              <!-- Rendered via JS -->
-            </table>
+      <!-- Table Inspector (Full Width for Spacious Sample Rows) -->
+      <div class="story-card" id="tableInspectorCard" style="margin-bottom: 24px;">
+        <div class="card-top">
+          <div>
+            <div class="story-headline">Galaxy Constellation Schema Inspector</div>
+            <div class="story-greyline">Select any warehouse table (or click its card in the diagram above) to inspect its grain, row count, column definitions, and live samples.</div>
           </div>
         </div>
 
-        <!-- 9 Quality Checks -->
-        <div class="story-card">
-          <div class="card-top">
-            <div>
-              <div class="story-headline">Data Quality & Referential Integrity Check</div>
-              <div class="story-greyline">All 9 automated integrity checks passed with zero defects (100% pass rate).</div>
-            </div>
-          </div>
-
-          <div id="qualityChecksContainer">
-            <!-- Rendered via JS -->
-          </div>
-
-          <div class="meaning-box">
-            <strong>Data Pipeline Flow:</strong> Raw CSVs (680 MB) ➔ DuckDB Staging (3.7s) ➔ Dimensional ETL ➔ Parquet Columnar Export ➔ K-Means & FP-Growth ➔ Live Dashboard.
-          </div>
+        <div style="margin-bottom: 14px;">
+          <select id="tableSelector" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-light); font-size: 13.5px; font-weight: 600; color: var(--text-main);">
+            <option value="fact_order_items">fact_order_items (Fact: 33,819,106 rows)</option>
+            <option value="fact_orders">fact_orders (Fact: 3,346,083 orders)</option>
+            <option value="dim_product">dim_product (Dimension: 49,688 products)</option>
+            <option value="dim_customer">dim_customer (Dimension: 206,209 shoppers)</option>
+            <option value="dim_time">dim_time (Dimension: 168 time slots)</option>
+            <option value="cube_dept_time">cube_dept_time (Summary Cube: 22,480 cells)</option>
+            <option value="fact_rules">fact_rules (Data Mining Fact: 48 rules)</option>
+          </select>
         </div>
 
+        <div id="tableDetailsBox" style="background:#F8FAFC; border:1px solid var(--border-light); border-radius:12px; padding:16px; margin-bottom:14px;">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div style="font-size:13px; font-weight:700; color:var(--text-main); margin-bottom:6px;">Sample Rows:</div>
+        <div style="overflow-x: auto;">
+          <table class="clean-table" id="sampleRowsTable">
+            <!-- Rendered via JS -->
+          </table>
+        </div>
       </div>
 
       <!-- Searchable Data Dictionary -->
