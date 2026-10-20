@@ -8,7 +8,33 @@
 
 > **Project Title:** *Integrating OLAP and Association Rule Mining on a Retail Data Warehouse for Customer Behavior Analysis*  
 > **Course:** Data Warehousing and Mining (DWM)  
-> **Live Analytics Dashboard:** `http://localhost:8501` (Executive Obsidian Dark Glassmorphism UI)
+> **Live Analytics Dashboard:** `http://localhost:8501` (Executive Obsidian Dark Glassmorphism UI)  
+> **Pre-Built Warehouse Release:** [📦 GitHub Release v1.0.0 Asset](https://github.com/ManthanJain-bit/E-Commerce-Sales-and-Customer-Behavior-Warehouse-Mining-/releases/tag/v1.0.0)
+
+---
+
+## ⚡ Quickstart: Pre-Built Warehouse (Instant Setup)
+
+You can launch the dashboard and run queries **immediately** without downloading 680 MB of raw CSVs or running the ETL pipeline, by downloading the official pre-built warehouse:
+
+### Option A: Automated Python Script (Recommended)
+```bash
+python etl/download_warehouse.py
+streamlit run dashboard/app.py
+```
+
+### Option B: Terminal Command (Curl & Tar)
+```bash
+# 1. Download pre-built warehouse ZIP from GitHub Release v1.0.0 (393 MB)
+curl -L -o data/warehouse_data.zip https://github.com/ManthanJain-bit/E-Commerce-Sales-and-Customer-Behavior-Warehouse-Mining-/releases/download/v1.0.0/warehouse_data.zip
+
+# 2. Extract into data/ folder (restores data/warehouse/dwm.duckdb and all parquet files)
+tar -xf data/warehouse_data.zip -C data/
+
+# 3. Launch the analytics dashboard immediately
+streamlit run dashboard/app.py
+```
+*Accessible at:* `http://localhost:8501`
 
 ---
 
