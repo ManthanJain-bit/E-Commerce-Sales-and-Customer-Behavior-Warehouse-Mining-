@@ -10,6 +10,7 @@ data/warehouse/*.duckdb
 data/warehouse/*.duckdb.wal
 data/warehouse/*.parquet
 !data/warehouse/.gitkeep
+data/*.zip
 
 # OS & IDE
 .vscode/
