@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retail Intelligence | Store at a Glance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <!-- =========================================================================
+       SIDEBAR NAVIGATION (White, Clean, Image 2 Layout)
+       ========================================================================= -->
+  <aside class="sidebar">
+    <div class="brand-header">
+      <div class="brand-icon">🛍️</div>
+      <div>
+        <div class="brand-title">Retail Insights</div>
+        <div class="brand-subtitle">Warehouse & Mining Portal</div>
+      </div>
+    </div>
+
+    <ul class="nav-menu">
+      <li><a class="nav-item active" data-page="overview"><span class="nav-icon">📊</span> Overview</a></li>
+      <li><a class="nav-item" data-page="explore"><span class="nav-icon">🔍</span> Explore</a></li>
+      <li><a class="nav-item" data-page="customers"><span class="nav-icon">👥</span> Customers</a></li>
+      <li><a class="nav-item" data-page="pairs"><span class="nav-icon">🛒</span> Product Pairs</a></li>
+      <li><a class="nav-item" data-page="recommender"><span class="nav-icon">🎯</span> Recommender</a></li>
+      <li><a class="nav-item" data-page="speed"><span class="nav-icon">⚡</span> Speed Tests</a></li>
+      <li><a class="nav-item" data-page="model"><span class="nav-icon">🏗️</span> Data Model</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="status-card">
+        <div class="status-header">
+          <span>Warehouse</span>
+          <span class="status-dot"></span>
+        </div>
+        <div class="status-row">
+          <span class="status-key">Total Items</span>
+          <span class="status-val">33.8M</span>
+        </div>
+        <div class="status-row">
+          <span class="status-key">Total Orders</span>
+          <span class="status-val">3.35M</span>
+        </div>
+        <div class="status-row">
+          <span class="status-key">Shoppers</span>
+          <span class="status-val">206,209</span>
+        </div>
+      </div>
+
+      <button class="glossary-btn" id="openGlossaryBtn">
+        <span>📖</span> Plain-English Glossary
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================= -->
+  <main class="main-content">
+    
+    <!-- TOP GREETING HEADER (Image 1 Warmth Style) -->
+    <header class="greeting-header">
+      <div class="greeting-info">
+        <h1 id="pageGreeting">Hi 👋 here's your store at a glance.</h1>
+        <p id="pageGreetingSub">Track total volume, peak shopping hours, and customer retention across 33.8 million grocery purchases.</p>
+      </div>
+      <div class="connected-badge">
+        <span>●</span> DuckDB Galaxy Warehouse Connected
+      </div>
+    </header>
+
+    <!-- =====================================================================
+         PAGE 1: OVERVIEW ("How is the store doing?")
+         ===================================================================== -->
+    <section class="page-view active" id="view-overview">
+      
+      <!-- 4 KPI Cards -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Orders</div>
+          <div class="kpi-number purple">3,346,083</div>
+          <div class="kpi-subtext">Completed customer baskets across all time.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Customers</div>
+          <div class="kpi-number">206,209</div>
+          <div class="kpi-subtext">Unique registered shopper accounts in warehouse.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Average Basket Size</div>
+          <div class="kpi-number coral">10.1 items</div>
+          <div class="kpi-subtext">Typical number of grocery items placed in each cart.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Returning Shopper Rate</div>
+          <div class="kpi-number green">59.0%</div>
+          <div class="kpi-subtext">Items bought by repeat buyers who reorder frequently.</div>
+        </div>
+      </div>
+
+      <!-- Row 1: Heatmap + Top Products -->
+      <div class="grid-1-1">
+        
+        <!-- Busiest Times Heatmap -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">Most orders happen on Sunday and Monday afternoons</div>
+              <div class="story-greyline">Each square is one hour of one weekday. Darker purple means more orders. Coral square is peak.</div>
+            </div>
+            <button class="help-btn" data-tip="Heatmap shows the sum of items ordered for each hour across all 7 days of the week. Darker purple = higher volume.">?</button>
+          </div>
+          
+          <div class="chart-area" id="heatmapContainer">
+            <!-- Rendered via JS -->
+          </div>
+
+          <div class="meaning-box">
+            <strong>💡 What this means:</strong> Schedule grocery pickers, restock crews, and delivery drivers around Sunday 1:00–3:00 PM and Monday 10:00 AM–2:00 PM.
+          </div>
+        </div>
+
+        <!-- Top 10 Bestselling Products -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">Fresh fruit and organic staples drive 60%+ of product velocity</div>
+              <div class="story-greyline">Horizontal bars show total purchases. Numbers on bars indicate direct order volume.</div>
+            </div>
+            <button class="help-btn" data-tip="Ranks top-selling products across all 33.8 million item purchases. Highlighted coral bar is #1 overall.">?</button>
+          </div>
+
+          <div class="chart-area" style="height: 270px;">
+            <canvas id="topProductsChart"></canvas>
+          </div>
+
+          <div class="meaning-box coral-accent">
+            <strong>💡 What this means:</strong> Bananas alone account for 491,291 orders with an 84.5% reorder rate. Maintain 99.9% in-stock availability to prevent abandoned carts.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Row 2: Department Share Donut + Loyalty Curve -->
+      <div class="grid-2">
+        
+        <!-- Department Share (Donut max 5 slices) -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">Produce and Dairy Eggs account for nearly half of all items sold</div>
+              <div class="story-greyline">Top 5 departments plus 'Others' combined into a clear, legible breakdown.</div>
+            </div>
+            <button class="help-btn" data-tip="Donut shows proportional item share of total grocery volume. Limited to top 5 categories + Others to prevent crowding.">?</button>
+          </div>
+
+          <div class="chart-area" style="height: 250px;">
+            <canvas id="deptDonutChart"></canvas>
+          </div>
+
+          <div class="meaning-box">
+            <strong>💡 What this means:</strong> Merchandising, supplier volume pricing, and app homepage promotions should focus on fresh produce and breakfast dairy.
+          </div>
+        </div>
+
+        <!-- Customer Loyalty Curve -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">Shoppers buy larger baskets as they gain confidence in the platform</div>
+              <div class="story-greyline">Average items per order plotted across customer repeat orders (1st through 50th order).</div>
+            </div>
+            <button class="help-btn" data-tip="Tracks how basket size expands as customers place repeated orders over their shopping lifetime.">?</button>
+          </div>
+
+          <div class="chart-area" style="height: 250px;">
+            <canvas id="loyaltyCurveChart"></canvas>
+          </div>
+
+          <div class="meaning-box">
+            <strong>💡 What this means:</strong> Getting a new customer to place their 5th order expands average cart value by over 18%. Invest in first-month onboarding discounts.
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         PAGE 2: EXPLORE ("Slice the data your way")
+         ===================================================================== -->
+    <section class="page-view" id="view-explore" style="display: none;">
+      
+      <!-- Filter Bar -->
+      <div class="story-card" style="padding: 18px 24px;">
+        <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Day Type</div>
+            <div class="pill-group" id="filterDay">
+              <button class="pill-btn active" data-val="all">All Days</button>
+              <button class="pill-btn" data-val="weekend">Weekends (Sun/Mon)</button>
+              <button class="pill-btn" data-val="weekday">Weekdays (Tue–Sat)</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Time of Day</div>
+            <div class="pill-group" id="filterTime">
+              <button class="pill-btn active" data-val="all">All Hours</button>
+              <button class="pill-btn" data-val="morning">Morning (6-11am)</button>
+              <button class="pill-btn" data-val="afternoon">Afternoon (12-5pm)</button>
+              <button class="pill-btn" data-val="evening">Evening (6-11pm)</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Zoom Level</div>
+            <div class="pill-group" id="filterZoom">
+              <button class="pill-btn active" data-val="dept">🏢 Department</button>
+              <button class="pill-btn" data-val="aisle">📦 Aisle</button>
+              <button class="pill-btn" data-val="product">🏷️ Top Product</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-strip" id="exploreSummaryStrip">
+        <span>📍 Currently Showing:</span> All Days • All Hours • Zoom Level: Department (33,819,106 items)
+      </div>
+
+      <!-- Dynamic Drill Chart -->
+      <div class="story-card">
+        <div class="card-top">
+          <div>
+            <div class="story-headline" id="exploreHeadline">Department volume distribution under selected filters</div>
+            <div class="story-greyline" id="exploreGreyline">Showing volume ranking across active slice. Click any bar to drill deeper.</div>
+          </div>
+        </div>
+
+        <div class="chart-area" style="height: 340px;">
+          <canvas id="exploreChart"></canvas>
+        </div>
+
+        <div class="meaning-box">
+          <strong>💡 What this means:</strong> Notice how grocery baskets dynamically shift between produce in morning breakfast hours and ready-to-eat snacks in evening hours.
+        </div>
+      </div>
+
+      <!-- Cross-Table (Pivot Matrix) -->
+      <div class="story-card">
+        <div class="card-top">
+          <div>
+            <div class="story-headline">Cross-Tabulation Matrix: Department volume across parts of the day</div>
+            <div class="story-greyline">Two-dimensional pivot grid showing item volume. Darker cells represent peak order volume.</div>
+          </div>
+          <button class="download-btn" id="downloadPivotBtn">📥 Download as CSV</button>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="clean-table" id="pivotTable">
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Morning (6–11 AM)</th>
+                <th>Afternoon (12–5 PM)</th>
+                <th>Evening (6–11 PM)</th>
+                <th>Night (12–5 AM)</th>
+                <th>Total Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="meaning-box">
+          <strong>💡 What this means:</strong> Produce and Dairy peak in the morning (3.3M and 1.9M items), while Snacks peak during afternoon and evening replenishment.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         PAGE 3: CUSTOMERS ("Who are our shoppers?")
+         ===================================================================== -->
+    <section class="page-view" id="view-customers" style="display: none;">
+      
+      <!-- 4 Persona Cards -->
+      <div class="persona-grid">
+        <div class="persona-card">
+          <span class="persona-tag tag-power">Loyal Power Shoppers</span>
+          <div class="persona-pct">4.5% <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">of store</span></div>
+          <div class="persona-count">9,383 shoppers</div>
+          <div class="persona-desc">Orders every <strong>5.4 days</strong>. Buys <strong>839 items</strong> over lifetime. Your core VIP engine.</div>
+        </div>
+        <div class="persona-card">
+          <span class="persona-tag tag-regular">High-Volume Regulars</span>
+          <div class="persona-pct">15.8% <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">of store</span></div>
+          <div class="persona-count">32,543 shoppers</div>
+          <div class="persona-desc">Orders every <strong>9.2 days</strong>. Buys <strong>355 items</strong> over lifetime. Reliable bi-weekly shoppers.</div>
+        </div>
+        <div class="persona-card">
+          <span class="persona-tag tag-casual">Casual Occasionals</span>
+          <div class="persona-pct">42.8% <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">of store</span></div>
+          <div class="persona-count">88,147 shoppers</div>
+          <div class="persona-desc">Orders every <strong>12.2 days</strong>. Buys <strong>105 items</strong> over lifetime. Largest single customer group.</div>
+        </div>
+        <div class="persona-card">
+          <span class="persona-tag tag-atrisk">Infrequent / At-Risk</span>
+          <div class="persona-pct">36.9% <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">of store</span></div>
+          <div class="persona-count">76,136 shoppers</div>
+          <div class="persona-desc">Orders every <strong>22.9 days</strong>. Buys only <strong>68 items</strong> over lifetime. High danger of churning.</div>
+        </div>
+      </div>
+
+      <!-- Single Stacked Proportional Bar -->
+      <div class="story-card">
+        <div class="card-top">
+          <div>
+            <div class="story-headline">Shopper Group Proportions: Casuals and At-Risk form 80% of accounts</div>
+            <div class="story-greyline">A single proportional bar showing exact distribution of the 206,209 customer accounts.</div>
+          </div>
+        </div>
+
+        <div class="single-stack-bar">
+          <div class="stack-segment" style="width: 42.75%; background: #0D9488;">Casual (42.8%)</div>
+          <div class="stack-segment" style="width: 36.92%; background: #FF6B4A;">At-Risk (36.9%)</div>
+          <div class="stack-segment" style="width: 15.78%; background: #0284C7;">Regulars (15.8%)</div>
+          <div class="stack-segment" style="width: 4.55%; background: #6C63D9;">VIP (4.5%)</div>
+        </div>
+
+        <div style="font-size: 14px; font-weight: 700; color: var(--text-main); margin: 18px 0 8px 0;">How the Shopper Groups Differ:</div>
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Loyal Power Shoppers</th>
+              <th>High-Volume Regulars</th>
+              <th>Casual Occasionals</th>
+              <th>Infrequent / At-Risk</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Lifetime Orders</strong></td>
+              <td><span style="color:#6C63D9; font-weight:700;">68.9 orders</span></td>
+              <td>34.7 orders</td>
+              <td>11.8 orders</td>
+              <td><span style="color:#FF6B4A; font-weight:700;">7.0 orders</span></td>
+            </tr>
+            <tr>
+              <td><strong>Cadence (Days Between)</strong></td>
+              <td><span style="color:#22A06B; font-weight:700;">5.4 days</span></td>
+              <td>9.2 days</td>
+              <td>12.2 days</td>
+              <td><span style="color:#FF6B4A; font-weight:700;">22.9 days</span></td>
+            </tr>
+            <tr>
+              <td><strong>Average Lifetime Items</strong></td>
+              <td><span style="color:#6C63D9; font-weight:700;">838.9 items</span></td>
+              <td>355.4 items</td>
+              <td>104.8 items</td>
+              <td>67.5 items</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="meaning-box">
+          <strong>💡 What this means:</strong> Power shoppers place 10× more orders than At-Risk shoppers and wait less than a quarter of the time between grocery deliveries.
+        </div>
+      </div>
+
+      <!-- Action Cards -->
+      <div class="story-card">
+        <div class="story-headline">Targeted Action Strategies by Customer Persona</div>
+        <div class="story-greyline">Tailored marketing, retention, and merchandising workflows for each shopper cluster.</div>
+        
+        <div class="grid-2" style="margin-top: 14px;">
+          <div style="background: #F8FAFC; border: 1px solid var(--border-light); border-radius: 12px; padding: 14px;">
+            <div style="font-weight: 800; color: var(--primary); margin-bottom: 4px;">👑 Loyal Power Shoppers (VIP Retention)</div>
+            <div style="font-size: 12.5px; color: var(--text-body);">Offer priority grocery delivery windows, early-bird farm fresh items, and free delivery subscription passes.</div>
+          </div>
+          <div style="background: var(--bg-tint-coral); border: 1px solid var(--coral-tint); border-radius: 12px; padding: 14px;">
+            <div style="font-weight: 800; color: var(--coral); margin-bottom: 4px;">⚠️ Infrequent / At-Risk (Churn Prevention)</div>
+            <div style="font-size: 12.5px; color: var(--text-body);">Trigger automated re-engagement SMS/Push notification when days since prior order exceeds 18 days with 15% discount.</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         PAGE 4: PRODUCT PAIRS ("What is bought together?")
+         ===================================================================== -->
+    <section class="page-view" id="view-pairs" style="display: none;">
+      
+      <!-- Sliders & Slicing Control -->
+      <div class="story-card" style="padding: 18px 24px;">
+        <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Context Slice</div>
+            <div class="pill-group" id="filterPairSlice">
+              <button class="pill-btn active" data-val="Global_Baseline">All Transactions</button>
+              <button class="pill-btn" data-val="Weekend_Morning">Weekend Mornings</button>
+              <button class="pill-btn" data-val="Weekday_Evening">Weekday Evenings</button>
+            </div>
+          </div>
+
+          <div style="flex-grow: 1; max-width: 250px;">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">
+              Link Strength (Lift): <span id="liftVal" style="color:var(--primary); font-weight:800;">1.5×</span>
+            </div>
+            <input type="range" id="sliderLift" min="1.0" max="4.8" step="0.1" value="1.5" style="width: 100%;">
+          </div>
+
+          <div style="flex-grow: 1; max-width: 250px;">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">
+              Frequency (% of orders): <span id="suppVal" style="color:var(--coral); font-weight:800;">1.0%</span>
+            </div>
+            <input type="range" id="sliderSupp" min="0.5" max="3.0" step="0.1" value="1.0" style="width: 100%;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Pair List & Temporal Comparison -->
+      <div class="grid-1-1">
+        
+        <!-- Sentence-Style Results List -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline" id="pairsHeadline">Top Co-Purchased Pairs Discovered</div>
+              <div class="story-greyline">Plain-English statements of what shoppers buy together and how much more likely the pairing is.</div>
+            </div>
+          </div>
+
+          <div id="pairsListContainer">
+            <!-- Rendered via JS -->
+          </div>
+
+          <div class="meaning-box">
+            <strong>💡 What this means:</strong> Notice items with lift > 3.0×: customers purchasing item A are over 3 times more likely to add item B. Place them adjacently on digital shelves.
+          </div>
+        </div>
+
+        <!-- Temporal Slice Comparison -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">Does time of day change it? (Temporal Slicing)</div>
+              <div class="story-greyline">Comparing top pairs between Weekend Mornings and Weekday Evenings. Coral pairs are exclusive!</div>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-tint-coral); border: 1px solid var(--coral-tint); border-radius: 12px; padding: 14px; margin-bottom: 14px;">
+            <div style="font-size: 14px; font-weight: 800; color: var(--coral); margin-bottom: 4px;">🍳 Weekend Morning Exclusive Pairs:</div>
+            <div style="font-size: 12.5px; color: #431407; line-height: 1.6;">
+              • <strong>Organic Cilantro ➔ Limes</strong> (4.8× stronger, 28.6% follow-up) <span style="background:var(--coral); color:#FFF; font-size:10px; padding:1px 6px; border-radius:4px;">Exclusive</span><br>
+              • <strong>Organic Raspberries ➔ Strawberries</strong> (2.4× stronger) <span style="background:var(--coral); color:#FFF; font-size:10px; padding:1px 6px; border-radius:4px;">Exclusive</span><br>
+              • <strong>Organic Gala Apples ➔ Bananas</strong> (1.7× stronger) <span style="background:var(--coral); color:#FFF; font-size:10px; padding:1px 6px; border-radius:4px;">Exclusive</span>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-tint-purple); border: 1px solid var(--primary-tint); border-radius: 12px; padding: 14px;">
+            <div style="font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 4px;">🌙 Weekday Evening Pairs:</div>
+            <div style="font-size: 12.5px; color: #1E1B4B; line-height: 1.6;">
+              • <strong>Organic Lemon ➔ Hass Avocado</strong> (3.0× stronger)<br>
+              • <strong>Large Lemon ➔ Avocado</strong> (2.8× stronger)<br>
+              • <strong>Organic Large Fuji Apple ➔ Bananas</strong> (2.1× stronger)
+            </div>
+          </div>
+
+          <div class="meaning-box coral-accent">
+            <strong>💡 What this means:</strong> There is a 50% rule divergence between morning and evening. Global mining completely diluted the weekend cooking connection!
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         PAGE 5: RECOMMENDER ("Pick items, get suggestions") - FLAGSHIP
+         ===================================================================== -->
+    <section class="page-view" id="view-recommender" style="display: none;">
+      
+      <!-- Interactive Cart Selection Box -->
+      <div class="story-card" style="padding: 24px;">
+        <div class="card-top">
+          <div>
+            <div class="story-headline">Pick items for your shopping cart 🛒</div>
+            <div class="story-greyline">Click items below or type to add them to your cart. The recommendation engine predicts intelligent cross-sells.</div>
+          </div>
+        </div>
+
+        <!-- Cart Chips -->
+        <div style="margin-bottom: 14px;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Your Current Shopping Cart:</div>
+          <div id="cartChipsContainer" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Quick Add Options -->
+        <div style="margin-bottom: 16px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-subtle); text-transform: uppercase; margin-bottom: 6px;">Quick Add Popular Items:</div>
+          <div id="quickAddContainer" style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Context Filter -->
+        <div style="display: flex; gap: 16px; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 14px;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-body);">🕒 Shopping Context:</div>
+          <div class="pill-group" id="recContextFilter">
+            <button class="pill-btn" data-val="Global_Baseline">Any Time of Week</button>
+            <button class="pill-btn active" data-val="Weekend_Morning">Weekend Morning (Culinary & Brunch)</button>
+            <button class="pill-btn" data-val="Weekday_Evening">Weekday Evening (Dinner Prep)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results as Product Cards -->
+      <div class="story-card">
+        <div class="card-top">
+          <div>
+            <div class="story-headline">Intelligent Add-On Suggestions for Your Cart</div>
+            <div class="story-greyline">Recommendations ranked by link strength (Lift) and co-purchase follow-up rate.</div>
+          </div>
+        </div>
+
+        <div id="recResultsContainer">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div class="meaning-box">
+          <strong>📊 How well does this work?</strong> In empirical validation tests, our slice-aware suggestions included the customer's missing item <strong>2.3× more often</strong> than just recommending bestsellers alone, and <strong>4.8× more often</strong> for weekend cooking items.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         PAGE 6: SPEED TESTS ("Which design is fastest?")
+         ===================================================================== -->
+    <section class="page-view" id="view-speed" style="display: none;">
+      
+      <div class="grid-2">
+        
+        <!-- Bar Chart: Shorter is Better -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">Pre-calculated summaries answer in 0.005 seconds instead of 0.4 seconds</div>
+              <div class="story-greyline">Query latency across storage designs. Shorter bar is faster (← Faster). Labeled directly in seconds.</div>
+            </div>
+          </div>
+
+          <div class="chart-area" style="height: 250px;">
+            <canvas id="speedBarChart"></canvas>
+          </div>
+
+          <div class="meaning-box">
+            <strong>💡 Why does this matter?</strong> Summary tables (`cube_dept_time`) aggregate 33.8 million rows down to 22,480 cells, speeding up executive reporting by up to <strong>87 times</strong>.
+          </div>
+        </div>
+
+        <!-- Scalability Line Chart -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">What happens as data grows from 3.4M to 33.8M rows?</div>
+              <div class="story-greyline">Galaxy schema maintains a constant 2× speedup over normalized relational tables across all scales.</div>
+            </div>
+          </div>
+
+          <div class="chart-area" style="height: 250px;">
+            <canvas id="scaleLineChart"></canvas>
+          </div>
+
+          <div class="meaning-box">
+            <strong>💡 What this means:</strong> Dimensional modeling eliminates 4 multi-table joins on every query, avoiding exponential join slowdowns as transactions accumulate.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mining Scalability -->
+      <div class="story-card">
+        <div class="card-top">
+          <div>
+            <div class="story-headline">Mining Scalability: Apriori explodes by 141× while FP-Growth stays fast</div>
+            <div class="story-greyline">Execution time as the minimum support threshold drops from 5% down to 1% across 79,405 grocery baskets.</div>
+          </div>
+        </div>
+
+        <div class="grid-1-1">
+          <div class="chart-area" style="height: 260px;">
+            <canvas id="miningChart"></canvas>
+          </div>
+          <div>
+            <div style="font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">Key Algorithmic Finding:</div>
+            <div style="font-size: 13px; color: var(--text-body); line-height: 1.6;">
+              • <strong>At 5% support:</strong> Both algorithms finish in under half a second.<br>
+              • <strong>At 1% support:</strong> Apriori's runtime surges by <strong>141.7×</strong> because it generates all candidate itemset combinations ($O(2^k)$) and scans the raw data repeatedly.<br>
+              • <strong>FP-Growth is 5.23× faster:</strong> It builds a compact FP-Tree in memory once, extracting rules without generating candidate combinations.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         PAGE 7: DATA MODEL ("How is the data organized?")
+         ===================================================================== -->
+    <section class="page-view" id="view-model" style="display: none;">
+      
+      <div class="grid-1-1">
+        
+        <!-- Table Inspector -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">Galaxy Constellation Schema Inspector</div>
+              <div class="story-greyline">Select a warehouse table to inspect its grain, row count, column definitions, and live samples.</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <select id="tableSelector" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-light); font-size: 13.5px; font-weight: 600; color: var(--text-main);">
+              <option value="fact_order_items">fact_order_items (Fact: 33,819,106 rows)</option>
+              <option value="fact_orders">fact_orders (Fact: 3,346,083 orders)</option>
+              <option value="dim_product">dim_product (Dimension: 49,688 products)</option>
+              <option value="dim_customer">dim_customer (Dimension: 206,209 shoppers)</option>
+              <option value="dim_time">dim_time (Dimension: 168 time slots)</option>
+              <option value="cube_dept_time">cube_dept_time (Summary Cube: 22,480 cells)</option>
+              <option value="fact_rules">fact_rules (Data Mining Fact: 48 rules)</option>
+            </select>
+          </div>
+
+          <div id="tableDetailsBox" style="background:#F8FAFC; border:1px solid var(--border-light); border-radius:12px; padding:16px; margin-bottom:14px;">
+            <!-- Rendered via JS -->
+          </div>
+
+          <div style="font-size:13px; font-weight:700; color:var(--text-main); margin-bottom:6px;">Sample Rows:</div>
+          <div style="overflow-x: auto;">
+            <table class="clean-table" id="sampleRowsTable">
+              <!-- Rendered via JS -->
+            </table>
+          </div>
+        </div>
+
+        <!-- 9 Quality Checks -->
+        <div class="story-card">
+          <div class="card-top">
+            <div>
+              <div class="story-headline">Data Quality & Referential Integrity Check</div>
+              <div class="story-greyline">All 9 automated integrity checks passed with zero defects (100% pass rate).</div>
+            </div>
+          </div>
+
+          <div id="qualityChecksContainer">
+            <!-- Rendered via JS -->
+          </div>
+
+          <div class="meaning-box">
+            <strong>Data Pipeline Flow:</strong> Raw CSVs (680 MB) ➔ DuckDB Staging (3.7s) ➔ Dimensional ETL ➔ Parquet Columnar Export ➔ K-Means & FP-Growth ➔ Live Dashboard.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Searchable Data Dictionary -->
+      <div class="story-card">
+        <div class="card-top">
+          <div>
+            <div class="story-headline">Searchable Plain-English Data Dictionary</div>
+            <div class="story-greyline">Type any column name or concept to inspect its business definition and source table.</div>
+          </div>
+          <input type="text" id="dictSearchInput" placeholder="🔍 Search dictionary..." style="padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-light); font-size: 13px;">
+        </div>
+
+        <table class="clean-table" id="dictTable">
+          <thead>
+            <tr>
+              <th>Table</th>
+              <th>Column</th>
+              <th>Data Type</th>
+              <th>Plain English Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rendered via JS -->
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<!-- =========================================================================
+     GLOSSARY MODAL
+     ========================================================================= -->
+<div class="modal-overlay" id="glossaryModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main);">📖 Plain-English Data Jargon Glossary</h2>
+      <button class="modal-close" id="closeGlossaryBtn">&times;</button>
+    </div>
+
+    <table class="clean-table">
+      <thead>
+        <tr>
+          <th>Technical Jargon</th>
+          <th>What the Dashboard Says</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Support</strong></td>
+          <td>"Bought together in X out of 100 orders"</td>
+        </tr>
+        <tr>
+          <td><strong>Confidence</strong></td>
+          <td>"When someone buys A, X out of 100 also buy B"</td>
+        </tr>
+        <tr>
+          <td><strong>Lift</strong></td>
+          <td>"X times more likely than normal random chance"</td>
+        </tr>
+        <tr>
+          <td><strong>Reorder Rate</strong></td>
+          <td>"Bought again by returning shoppers (%)"</td>
+        </tr>
+        <tr>
+          <td><strong>RFM Segment</strong></td>
+          <td>A named shopper group, like "Loyal Power Shoppers"</td>
+        </tr>
+        <tr>
+          <td><strong>Roll-up / Drill-down</strong></td>
+          <td>"Zoom out" / "Zoom in" across category levels</td>
+        </tr>
+        <tr>
+          <td><strong>Slice / Dice</strong></td>
+          <td>"Filter by day, time, or department"</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -2,25 +2,29 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
 [![Database](https://img.shields.io/badge/OLAP%20Engine-DuckDB%201.5.6%20%2B%20Parquet-orange.svg)](https://duckdb.org/)
-[![Dashboard](https://img.shields.io/badge/UI-Streamlit%20Executive%20Portal-red.svg)](https://streamlit.io/)
+[![Dashboard](https://img.shields.io/badge/UI-HTML5%20%2B%20Vanilla%20CSS-purple.svg)](dashboard/index.html)
 [![Dataset](https://img.shields.io/badge/Dataset-Instacart%2033.8M%20Items-green.svg)](https://huggingface.co/datasets/attik/Instacart-Market-Basket-Analysis)
 [![Integrity](https://img.shields.io/badge/Validation-9%2F9%20Tests%20Passed-brightgreen.svg)]()
 
 > **Project Title:** *Integrating OLAP and Association Rule Mining on a Retail Data Warehouse for Customer Behavior Analysis*  
 > **Course:** Data Warehousing and Mining (DWM)  
-> **Live Analytics Dashboard:** `http://localhost:8501` (Executive Obsidian Dark Glassmorphism UI)  
+> **Live Analytics Dashboard:** [Open `dashboard/index.html`](file:///c:/Users/Rupali%20Waghmare/Downloads/DWM%20Project/dashboard/index.html) or `http://localhost:8080/index.html` (Light Lavender-Grey & Coral Theme)  
 > **Pre-Built Warehouse Release:** [📦 GitHub Release v1.0.0 Asset](https://github.com/ManthanJain-bit/E-Commerce-Sales-and-Customer-Behavior-Warehouse-Mining-/releases/tag/v1.0.0)
 
 ---
 
-## ⚡ Quickstart: Pre-Built Warehouse (Instant Setup)
+## ⚡ Quickstart: Launching the Dashboard
 
-You can launch the dashboard and run queries **immediately** without downloading 680 MB of raw CSVs or running the ETL pipeline, by downloading the official pre-built warehouse:
+### 1. Instant HTML Web Dashboard (Zero Setup Needed)
+Simply open [`dashboard/index.html`](file:///c:/Users/Rupali%20Waghmare/Downloads/DWM%20Project/dashboard/index.html) directly in any web browser, or run a local server:
+```bash
+python -m http.server 8080 --directory dashboard
+# Open in browser: http://localhost:8080/index.html
+```
 
-### Option A: Automated Python Script (Recommended)
+### 2. Pre-Built Warehouse (Full 33.8M Records)
 ```bash
 python etl/download_warehouse.py
-streamlit run dashboard/app.py
 ```
 
 ### Option B: Terminal Command (Curl & Tar)
