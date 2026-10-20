@@ -858,9 +858,185 @@ function renderMiningChart() {
 // 7. PAGE 7: DATA MODEL CONTROLLER
 // =============================================================================
 function initModelPage() {
+  initGalaxyDiagram();
   renderTableInspector();
   renderQualityChecks();
   renderDataDictionary();
+}
+
+function initGalaxyDiagram() {
+  const nodes = document.querySelectorAll('.table-node');
+  const selector = document.getElementById('tableSelector');
+  const filterPills = document.querySelectorAll('#galaxyFilterPills .pill-btn');
+  const allPaths = document.querySelectorAll('.schema-path');
+  const allBadges = document.querySelectorAll('.schema-badge');
+
+  // Mapping of table relationships for interactive tracing
+  const connections = {
+    dim_product: {
+      paths: ['#path-dim_product'],
+      badges: ['#badge-dim_product'],
+      nodes: ['#node-dim_product', '#node-fact_order_items']
+    },
+    dim_customer: {
+      paths: ['#path-dim_customer-items', '#path-dim_customer-orders'],
+      badges: ['#badge-dim_customer-items', '#badge-dim_customer-orders'],
+      nodes: ['#node-dim_customer', '#node-fact_order_items', '#node-fact_orders']
+    },
+    dim_time: {
+      paths: ['#path-dim_time-orders', '#path-dim_time-items'],
+      badges: ['#badge-dim_time-orders', '#badge-dim_time-items'],
+      nodes: ['#node-dim_time', '#node-fact_order_items', '#node-fact_orders']
+    },
+    fact_order_items: {
+      paths: ['#path-dim_product', '#path-dim_customer-items', '#path-dim_time-items', '#path-fact_bridge', '#path-cube_rollup', '#path-mining_rules'],
+      badges: ['#badge-dim_product', '#badge-dim_customer-items', '#badge-dim_time-items', '#badge-fact_bridge', '#badge-cube_rollup', '#badge-mining_rules'],
+      nodes: ['#node-fact_order_items', '#node-dim_product', '#node-dim_customer', '#node-dim_time', '#node-fact_orders', '#node-cube_dept_time', '#node-fact_rules']
+    },
+    fact_orders: {
+      paths: ['#path-fact_bridge', '#path-dim_customer-orders', '#path-dim_time-orders'],
+      badges: ['#badge-fact_bridge', '#badge-dim_customer-orders', '#badge-dim_time-orders'],
+      nodes: ['#node-fact_orders', '#node-fact_order_items', '#node-dim_customer', '#node-dim_time']
+    },
+    cube_dept_time: {
+      paths: ['#path-cube_rollup'],
+      badges: ['#badge-cube_rollup'],
+      nodes: ['#node-cube_dept_time', '#node-fact_order_items']
+    },
+    fact_rules: {
+      paths: ['#path-mining_rules'],
+      badges: ['#badge-mining_rules'],
+      nodes: ['#node-fact_rules', '#node-fact_order_items']
+    }
+  };
+
+  function selectNode(tblName) {
+    nodes.forEach(n => {
+      if (n.dataset.tbl === tblName) {
+        n.classList.add('selected');
+      } else {
+        n.classList.remove('selected');
+      }
+    });
+  }
+
+  // Handle table node clicks
+  nodes.forEach(node => {
+    node.addEventListener('click', () => {
+      const tbl = node.dataset.tbl;
+      if (!tbl) return;
+      selectNode(tbl);
+      if (selector) {
+        selector.value = tbl;
+        selector.dispatchEvent(new Event('change'));
+      }
+      document.getElementById('tableInspectorCard')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Hover highlighting
+    node.addEventListener('mouseenter', () => {
+      const tbl = node.dataset.tbl;
+      const conn = connections[tbl];
+      if (!conn) return;
+
+      nodes.forEach(n => {
+        if (!conn.nodes.includes(`#${n.id}`)) {
+          n.classList.add('dimmed');
+        } else {
+          n.classList.add('highlighted');
+        }
+      });
+
+      allPaths.forEach(p => {
+        if (conn.paths.includes(`#${p.id}`)) {
+          p.classList.add('highlighted');
+        } else {
+          p.classList.add('dimmed');
+        }
+      });
+
+      allBadges.forEach(b => {
+        if (conn.badges.includes(`#${b.id}`)) {
+          b.classList.add('highlighted');
+        }
+      });
+    });
+
+    node.addEventListener('mouseleave', () => {
+      nodes.forEach(n => n.classList.remove('dimmed', 'highlighted'));
+      allPaths.forEach(p => p.classList.remove('dimmed', 'highlighted'));
+      allBadges.forEach(b => b.classList.remove('highlighted'));
+    });
+  });
+
+  // Sync when selector changes
+  if (selector) {
+    selector.addEventListener('change', () => {
+      selectNode(selector.value);
+    });
+    selectNode(selector.value);
+  }
+
+  // Filter Pills Handling
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const filter = pill.dataset.filter;
+
+      nodes.forEach(n => n.classList.remove('dimmed', 'highlighted'));
+      allPaths.forEach(p => p.classList.remove('dimmed', 'highlighted'));
+
+      if (filter === 'all') {
+        // All active
+      } else if (filter === 'facts') {
+        nodes.forEach(n => {
+          if (n.dataset.tbl === 'fact_order_items' || n.dataset.tbl === 'fact_orders') {
+            n.classList.add('highlighted');
+          } else {
+            n.classList.add('dimmed');
+          }
+        });
+        allPaths.forEach(p => {
+          if (p.id === 'path-fact_bridge') {
+            p.classList.add('highlighted');
+          } else {
+            p.classList.add('dimmed');
+          }
+        });
+      } else if (filter === 'dimensions') {
+        nodes.forEach(n => {
+          if (n.dataset.tbl.startsWith('dim_')) {
+            n.classList.add('highlighted');
+          } else {
+            n.classList.add('dimmed');
+          }
+        });
+        allPaths.forEach(p => {
+          if (p.id.startsWith('path-dim_')) {
+            p.classList.add('highlighted');
+          } else {
+            p.classList.add('dimmed');
+          }
+        });
+      } else if (filter === 'marts') {
+        nodes.forEach(n => {
+          if (n.dataset.tbl === 'cube_dept_time' || n.dataset.tbl === 'fact_rules') {
+            n.classList.add('highlighted');
+          } else {
+            n.classList.add('dimmed');
+          }
+        });
+        allPaths.forEach(p => {
+          if (p.id === 'path-cube_rollup' || p.id === 'path-mining_rules') {
+            p.classList.add('highlighted');
+          } else {
+            p.classList.add('dimmed');
+          }
+        });
+      }
+    });
+  });
 }
 
 function renderTableInspector() {

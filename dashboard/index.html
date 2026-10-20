@@ -625,11 +625,282 @@
          PAGE 7: DATA MODEL ("How is the data organized?")
          ===================================================================== -->
     <section class="page-view" id="view-model" style="display: none;">
-      
+
+      <!-- ===================================================================
+           GALAXY CONSTELLATION SCHEMA ARCHITECTURE CARD (Full Visual ER Map)
+           =================================================================== -->
+      <div class="story-card galaxy-story-card" id="galaxyCard" style="margin-bottom: 24px;">
+        <div class="card-top">
+          <div>
+            <div class="story-headline">Kimball Galaxy Constellation Schema: Full Analytical Architecture</div>
+            <div class="story-greyline">Interactive visual entity-relationship structure connecting 2 central transactional facts, 3 conformed dimensions, 1 pre-aggregated cube, and 1 mining fact across 33,819,106 items.</div>
+          </div>
+          <button class="help-btn" data-tip="Galaxy Schema (Fact Constellation) shares conformed dimensions across multiple fact tables of different grains (item-level vs order-level), avoiding aggregation fan-out bugs while slashing storage by 80%.">?</button>
+        </div>
+
+        <!-- Filter Pills & Architecture Legend -->
+        <div class="galaxy-toolbar">
+          <div class="galaxy-pills" id="galaxyFilterPills">
+            <button class="pill-btn active" data-filter="all">🌐 All Architecture (7 Tables)</button>
+            <button class="pill-btn" data-filter="facts">🟣 Fact Tables (2 Multi-Grain Facts)</button>
+            <button class="pill-btn" data-filter="dimensions">🔵 Conformed Dimensions (3 Dims)</button>
+            <button class="pill-btn" data-filter="marts">🟠 Aggregates & Mining (Cube & Rules)</button>
+          </div>
+
+          <div class="galaxy-legend">
+            <span class="legend-badge badge-fact">🟣 Fact Table</span>
+            <span class="legend-badge badge-conformed">🔵 Conformed Dim (Shared)</span>
+            <span class="legend-badge badge-cube">🟠 Pre-Aggregated Cube</span>
+            <span class="legend-badge badge-mining">🟢 Mining Fact (FP-Growth)</span>
+            <span class="legend-badge badge-fk">⚡ FK Join (Click table to inspect)</span>
+          </div>
+        </div>
+
+        <!-- Interactive Diagram Board -->
+        <div class="galaxy-board-wrapper">
+          <svg class="galaxy-svg" id="galaxySchemaSvg" viewBox="0 0 1140 735" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <filter id="cardShadow" x="-10%" y="-10%" width="125%" height="125%">
+                <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.06"/>
+              </filter>
+              <linearGradient id="gradFact" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#6C63D9"/>
+                <stop offset="100%" stop-color="#554CB8"/>
+              </linearGradient>
+              <linearGradient id="gradDim" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0284C7"/>
+                <stop offset="100%" stop-color="#0369A1"/>
+              </linearGradient>
+              <linearGradient id="gradDimShared" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#2563EB"/>
+                <stop offset="100%" stop-color="#1D4ED8"/>
+              </linearGradient>
+              <linearGradient id="gradCube" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#EA580C"/>
+                <stop offset="100%" stop-color="#C2410C"/>
+              </linearGradient>
+              <linearGradient id="gradMining" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#059669"/>
+                <stop offset="100%" stop-color="#047857"/>
+              </linearGradient>
+              <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path d="M 0 1 L 6 4 L 0 7 z" fill="#0284C7"/>
+              </marker>
+              <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path d="M 0 1 L 6 4 L 0 7 z" fill="#6C63D9"/>
+              </marker>
+              <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path d="M 0 1 L 6 4 L 0 7 z" fill="#EA580C"/>
+              </marker>
+              <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path d="M 0 1 L 6 4 L 0 7 z" fill="#059669"/>
+              </marker>
+            </defs>
+
+            <!-- ===============================================================
+                 CONNECTOR PATHS (Foreign Keys, Conformance, Bridges, Derivations)
+                 =============================================================== -->
+            <!-- 1. dim_product -> fact_order_items (product_key) -->
+            <path id="path-dim_product" class="schema-path" d="M 175 220 L 175 305" stroke="#0284C7" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+            <g id="badge-dim_product" class="schema-badge">
+              <rect class="badge-bg" x="115" y="248" width="120" height="24"/>
+              <text class="badge-text" x="175" y="264" text-anchor="middle">product_key (FK)</text>
+            </g>
+
+            <!-- 2. dim_customer -> fact_order_items (customer_key) -->
+            <path id="path-dim_customer-items" class="schema-path" d="M 500 220 C 500 268, 290 252, 290 305" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+            <g id="badge-dim_customer-items" class="schema-badge">
+              <rect class="badge-bg" x="320" y="248" width="125" height="24"/>
+              <text class="badge-text" x="382" y="264" text-anchor="middle">customer_key (FK)</text>
+            </g>
+
+            <!-- 3. dim_customer -> fact_orders (customer_key) -->
+            <path id="path-dim_customer-orders" class="schema-path" d="M 640 220 C 640 268, 830 252, 830 305" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+            <g id="badge-dim_customer-orders" class="schema-badge">
+              <rect class="badge-bg" x="695" y="248" width="125" height="24"/>
+              <text class="badge-text" x="757" y="264" text-anchor="middle">customer_key (FK)</text>
+            </g>
+
+            <!-- 4. dim_time -> fact_orders (time_key) -->
+            <path id="path-dim_time-orders" class="schema-path" d="M 965 220 L 965 305" stroke="#0284C7" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+            <g id="badge-dim_time-orders" class="schema-badge">
+              <rect class="badge-bg" x="915" y="248" width="100" height="24"/>
+              <text class="badge-text" x="965" y="264" text-anchor="middle">time_key (FK)</text>
+            </g>
+
+            <!-- 5. dim_time -> fact_order_items (time_key conformed) -->
+            <path id="path-dim_time-items" class="schema-path" d="M 870 220 C 870 282, 385 240, 385 305" stroke="#2563EB" stroke-width="2.2" stroke-dasharray="5 3" marker-end="url(#arrowBlue)"/>
+            <g id="badge-dim_time-items" class="schema-badge">
+              <rect class="badge-bg" x="485" y="270" width="170" height="24"/>
+              <text class="badge-text" x="570" y="286" text-anchor="middle">time_key (Shared Conformed)</text>
+            </g>
+
+            <!-- 6. Inter-Fact Bridge: fact_orders -> fact_order_items (order_id 1:N) -->
+            <path id="path-fact_bridge" class="schema-path" d="M 735 412 L 405 412" stroke="#6C63D9" stroke-width="2.6" marker-end="url(#arrowPurple)"/>
+            <g id="badge-fact_bridge" class="schema-badge">
+              <rect class="badge-bg" x="480" y="394" width="180" height="36" rx="8" ry="8" stroke="#6C63D9" stroke-width="1.5"/>
+              <text class="badge-text" x="570" y="411" text-anchor="middle" font-size="12" fill="#6C63D9" font-weight="800">1 : N (order_id Bridge)</text>
+              <text class="badge-text" x="570" y="424" text-anchor="middle" font-size="9.5" fill="#64748B">1 Order contains ~10.1 Items</text>
+            </g>
+
+            <!-- 7. fact_order_items -> cube_dept_time (Rollup) -->
+            <path id="path-cube_rollup" class="schema-path" d="M 215 520 L 215 575" stroke="#EA580C" stroke-width="2.4" marker-end="url(#arrowOrange)"/>
+            <g id="badge-cube_rollup" class="schema-badge">
+              <rect class="badge-bg" x="120" y="536" width="190" height="24"/>
+              <text class="badge-text" x="215" y="552" text-anchor="middle">ROLLUP Aggregation (87× Fast)</text>
+            </g>
+
+            <!-- 8. fact_order_items -> fact_rules (Mining) -->
+            <path id="path-mining_rules" class="schema-path" d="M 330 520 C 330 560, 750 535, 750 575" stroke="#059669" stroke-width="2.4" marker-end="url(#arrowGreen)"/>
+            <g id="badge-mining_rules" class="schema-badge">
+              <rect class="badge-bg" x="435" y="536" width="210" height="24"/>
+              <text class="badge-text" x="540" y="552" text-anchor="middle">FP-Growth Market Basket Mining</text>
+            </g>
+
+            <!-- ===============================================================
+                 TABLE NODES (Interactive, Clickable, Hoverable)
+                 =============================================================== -->
+
+            <!-- Table 1: dim_product -->
+            <g class="table-node" id="node-dim_product" data-tbl="dim_product" transform="translate(20, 20)">
+              <rect class="card-bg" width="310" height="200" rx="12" ry="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" filter="url(#cardShadow)"/>
+              <path d="M 0 12 Q 0 0 12 0 L 298 0 Q 310 0 310 12 L 310 46 L 0 46 Z" fill="url(#gradDim)"/>
+              <text x="14" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="800" fill="#FFFFFF">dim_product</text>
+              <rect x="225" y="11" width="75" height="18" rx="9" ry="9" fill="#FFFFFF" fill-opacity="0.2"/>
+              <text x="262" y="23" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" fill="#FFFFFF" text-anchor="middle">DIMENSION</text>
+              <text x="14" y="40" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" fill="#E0F2FE">Catalog Hierarchy (49,688 SKUs)</text>
+              
+              <g transform="translate(14, 62)" font-family="'Plus Jakarta Sans', sans-serif" font-size="11.5">
+                <text y="14" fill="#0F172A" font-weight="700">🔑 product_key <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [PK]</tspan></text>
+                <text y="36" fill="#334155">🏷️ product_name <tspan fill="#64748B" font-size="10.5">: VARCHAR</tspan></text>
+                <text y="58" fill="#334155">🏷️ aisle_id <tspan fill="#64748B" font-size="10.5">: INTEGER</tspan></text>
+                <text y="80" fill="#334155">🏷️ aisle <tspan fill="#64748B" font-size="10.5">: VARCHAR (134 Aisles)</tspan></text>
+                <text y="102" fill="#334155">🏷️ department_id <tspan fill="#64748B" font-size="10.5">: INTEGER</tspan></text>
+                <text y="124" fill="#334155">🏷️ department <tspan fill="#64748B" font-size="10.5">: VARCHAR (21 Depts)</tspan></text>
+              </g>
+            </g>
+
+            <!-- Table 2: dim_customer (CONFORMED) -->
+            <g class="table-node" id="node-dim_customer" data-tbl="dim_customer" transform="translate(415, 20)">
+              <rect class="card-bg" width="310" height="200" rx="12" ry="12" fill="#FFFFFF" stroke="#2563EB" stroke-width="2" filter="url(#cardShadow)"/>
+              <path d="M 0 12 Q 0 0 12 0 L 298 0 Q 310 0 310 12 L 310 46 L 0 46 Z" fill="url(#gradDimShared)"/>
+              <text x="14" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="800" fill="#FFFFFF">dim_customer</text>
+              <rect x="210" y="11" width="90" height="18" rx="9" ry="9" fill="#FFFFFF" fill-opacity="0.25"/>
+              <text x="255" y="23" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">🌟 CONFORMED</text>
+              <text x="14" y="40" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" fill="#DBEAFE">Customer Profiles (206,209 Shoppers)</text>
+              
+              <g transform="translate(14, 62)" font-family="'Plus Jakarta Sans', sans-serif" font-size="11.5">
+                <text y="14" fill="#0F172A" font-weight="700">🔑 customer_key <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [PK]</tspan></text>
+                <text y="36" fill="#334155">📊 total_orders <tspan fill="#64748B" font-size="10.5">: INTEGER</tspan></text>
+                <text y="58" fill="#334155">📊 total_items <tspan fill="#64748B" font-size="10.5">: INTEGER</tspan></text>
+                <text y="80" fill="#334155">📊 avg_basket_size <tspan fill="#64748B" font-size="10.5">: DOUBLE</tspan></text>
+                <text y="102" fill="#334155">📊 avg_days_between_orders <tspan fill="#64748B" font-size="10.5">: DOUBLE</tspan></text>
+                <text y="124" fill="#1D4ED8" font-weight="700">🏷️ rfm_segment <tspan fill="#64748B" font-size="10.5" font-weight="400">: VARCHAR [K-Means]</tspan></text>
+              </g>
+            </g>
+
+            <!-- Table 3: dim_time (CONFORMED) -->
+            <g class="table-node" id="node-dim_time" data-tbl="dim_time" transform="translate(810, 20)">
+              <rect class="card-bg" width="310" height="200" rx="12" ry="12" fill="#FFFFFF" stroke="#2563EB" stroke-width="2" filter="url(#cardShadow)"/>
+              <path d="M 0 12 Q 0 0 12 0 L 298 0 Q 310 0 310 12 L 310 46 L 0 46 Z" fill="url(#gradDimShared)"/>
+              <text x="14" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="800" fill="#FFFFFF">dim_time</text>
+              <rect x="210" y="11" width="90" height="18" rx="9" ry="9" fill="#FFFFFF" fill-opacity="0.25"/>
+              <text x="255" y="23" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">🌟 CONFORMED</text>
+              <text x="14" y="40" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" fill="#DBEAFE">Cyclical Slots (7 Days × 24 Hours = 168)</text>
+              
+              <g transform="translate(14, 62)" font-family="'Plus Jakarta Sans', sans-serif" font-size="11.5">
+                <text y="14" fill="#0F172A" font-weight="700">🔑 time_key <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [dow*24 + hr]</tspan></text>
+                <text y="36" fill="#334155">🏷️ order_dow <tspan fill="#64748B" font-size="10.5">: INTEGER (0 to 6)</tspan></text>
+                <text y="58" fill="#334155">🏷️ hour <tspan fill="#64748B" font-size="10.5">: INTEGER (0 to 23)</tspan></text>
+                <text y="80" fill="#334155">🏷️ day_label <tspan fill="#64748B" font-size="10.5">: VARCHAR</tspan></text>
+                <text y="102" fill="#334155">🏷️ is_weekend <tspan fill="#64748B" font-size="10.5">: BOOLEAN (0, 1)</tspan></text>
+                <text y="124" fill="#334155">🏷️ part_of_day <tspan fill="#64748B" font-size="10.5">: Morning / Aft / Eve</tspan></text>
+              </g>
+            </g>
+
+            <!-- Table 4: fact_order_items (Core Fine Grain Fact) -->
+            <g class="table-node" id="node-fact_order_items" data-tbl="fact_order_items" transform="translate(30, 305)">
+              <rect class="card-bg" width="375" height="215" rx="12" ry="12" fill="#FFFFFF" stroke="#6C63D9" stroke-width="2.5" filter="url(#cardShadow)"/>
+              <path d="M 0 12 Q 0 0 12 0 L 363 0 Q 375 0 375 12 L 375 48 L 0 48 Z" fill="url(#gradFact)"/>
+              <text x="16" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">fact_order_items</text>
+              <rect x="250" y="11" width="115" height="19" rx="9.5" ry="9.5" fill="#FFFFFF" fill-opacity="0.25"/>
+              <text x="307" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">FACT: ITEM GRAIN</text>
+              <text x="16" y="41" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" fill="#ECEAFE">1 Row per Cart Item (33,819,106 rows)</text>
+              
+              <g transform="translate(16, 66)" font-family="'Plus Jakarta Sans', sans-serif" font-size="12">
+                <text y="14" fill="#6C63D9" font-weight="700">🔗 order_id <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [FK ➔ fact_orders]</tspan></text>
+                <text y="37" fill="#0284C7" font-weight="700">🔗 product_key <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [FK ➔ dim_product]</tspan></text>
+                <text y="60" fill="#2563EB" font-weight="700">🔗 customer_key <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [FK ➔ dim_customer]</tspan></text>
+                <text y="83" fill="#2563EB" font-weight="700">🔗 time_key <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [FK ➔ dim_time]</tspan></text>
+                <text y="106" fill="#0F172A">📊 add_to_cart_order <tspan fill="#64748B" font-size="10.5">: INT [Basket Placement]</tspan></text>
+                <text y="129" fill="#FF6B4A" font-weight="700">📊 reordered <tspan fill="#64748B" font-size="10.5" font-weight="400">: TINYINT (1=Repeat, 0=First)</tspan></text>
+              </g>
+            </g>
+
+            <!-- Table 5: fact_orders (Core Coarse Grain Fact) -->
+            <g class="table-node" id="node-fact_orders" data-tbl="fact_orders" transform="translate(735, 305)">
+              <rect class="card-bg" width="375" height="215" rx="12" ry="12" fill="#FFFFFF" stroke="#6C63D9" stroke-width="2.5" filter="url(#cardShadow)"/>
+              <path d="M 0 12 Q 0 0 12 0 L 363 0 Q 375 0 375 12 L 375 48 L 0 48 Z" fill="url(#gradFact)"/>
+              <text x="16" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="800" fill="#FFFFFF">fact_orders</text>
+              <rect x="238" y="11" width="125" height="19" rx="9.5" ry="9.5" fill="#FFFFFF" fill-opacity="0.25"/>
+              <text x="300" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">FACT: ORDER GRAIN</text>
+              <text x="16" y="41" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" fill="#ECEAFE">1 Row per Checkout (3,346,083 orders)</text>
+              
+              <g transform="translate(16, 66)" font-family="'Plus Jakarta Sans', sans-serif" font-size="12">
+                <text y="14" fill="#0F172A" font-weight="700">🔑 order_id <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [PK Primary Key]</tspan></text>
+                <text y="37" fill="#2563EB" font-weight="700">🔗 customer_key <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [FK ➔ dim_customer]</tspan></text>
+                <text y="60" fill="#2563EB" font-weight="700">🔗 time_key <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [FK ➔ dim_time]</tspan></text>
+                <text y="83" fill="#0F172A">📊 order_number <tspan fill="#64748B" font-size="10.5">: INT [User Order Sequence]</tspan></text>
+                <text y="106" fill="#0F172A">📊 days_since_prior_order <tspan fill="#64748B" font-size="10.5">: DOUBLE [Cadence]</tspan></text>
+                <text y="129" fill="#6C63D9" font-weight="700">📊 basket_size <tspan fill="#64748B" font-size="10.5" font-weight="400">: INT [Count of Items]</tspan></text>
+              </g>
+            </g>
+
+            <!-- Table 6: cube_dept_time (Pre-Aggregated OLAP Mart) -->
+            <g class="table-node" id="node-cube_dept_time" data-tbl="cube_dept_time" transform="translate(30, 575)">
+              <rect class="card-bg" width="410" height="140" rx="12" ry="12" fill="#FFFFFF" stroke="#EA580C" stroke-width="1.8" filter="url(#cardShadow)"/>
+              <path d="M 0 12 Q 0 0 12 0 L 398 0 Q 410 0 410 12 L 410 44 L 0 44 Z" fill="url(#gradCube)"/>
+              <text x="16" y="23" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="800" fill="#FFFFFF">cube_dept_time</text>
+              <rect x="285" y="10" width="115" height="18" rx="9" ry="9" fill="#FFFFFF" fill-opacity="0.25"/>
+              <text x="342" y="22" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">⚡ 87× FAST OLAP</text>
+              <text x="16" y="38" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" fill="#FFEDD5">Pre-Aggregated Summary Cube (22,480 cells)</text>
+              
+              <g transform="translate(16, 60)" font-family="'Plus Jakarta Sans', sans-serif" font-size="11.5">
+                <text y="14" fill="#334155">🏷️ department, aisle <tspan fill="#64748B" font-size="10.5">: VARCHAR [Product Drill-Down]</tspan></text>
+                <text y="35" fill="#334155">🏷️ order_dow, hour <tspan fill="#64748B" font-size="10.5">: INTEGER [Temporal Slice & Dice]</tspan></text>
+                <text y="56" fill="#C2410C" font-weight="700">📊 items, reordered_items <tspan fill="#64748B" font-size="10.5" font-weight="400">: BIGINT [Pre-Summed Metrics]</tspan></text>
+              </g>
+            </g>
+
+            <!-- Table 7: fact_rules (Association Mining Mart) -->
+            <g class="table-node" id="node-fact_rules" data-tbl="fact_rules" transform="translate(700, 575)">
+              <rect class="card-bg" width="410" height="140" rx="12" ry="12" fill="#FFFFFF" stroke="#059669" stroke-width="1.8" filter="url(#cardShadow)"/>
+              <path d="M 0 12 Q 0 0 12 0 L 398 0 Q 410 0 410 12 L 410 44 L 0 44 Z" fill="url(#gradMining)"/>
+              <text x="16" y="23" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="800" fill="#FFFFFF">fact_rules</text>
+              <rect x="290" y="10" width="110" height="18" rx="9" ry="9" fill="#FFFFFF" fill-opacity="0.25"/>
+              <text x="345" y="22" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="800" fill="#FFFFFF" text-anchor="middle">🧠 OLAM MINING</text>
+              <text x="16" y="38" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" fill="#D1FAE5">Discovered Association Rules (48 Rules via FP-Growth)</text>
+              
+              <g transform="translate(16, 60)" font-family="'Plus Jakarta Sans', sans-serif" font-size="11.5">
+                <text y="14" fill="#334155">🏷️ slice_name <tspan fill="#64748B" font-size="10.5">: VARCHAR [Context: Baseline, Morning, Weekend]</tspan></text>
+                <text y="35" fill="#334155">🏷️ antecedent ➔ consequent <tspan fill="#64748B" font-size="10.5">: Item A ➔ Item B</tspan></text>
+                <text y="56" fill="#047857" font-weight="700">📊 support, confidence, lift <tspan fill="#64748B" font-size="10.5" font-weight="400">: DOUBLE [Strength Metrics]</tspan></text>
+              </g>
+            </g>
+
+          </svg>
+        </div>
+
+        <!-- Takeaway Note -->
+        <div class="meaning-box" style="margin-top: 16px;">
+          <strong>💡 Why a Galaxy Schema instead of a Single Star Schema?</strong> E-commerce transactions naturally occur at two fundamentally distinct granularities: individual items scanned into a cart (<strong>33.8M rows</strong>) and the overall checkout order receipt (<strong>3.35M rows</strong>). Storing them in separate facts that share conformed dimensions (<code>dim_customer</code> and <code>dim_time</code>) completely eliminates aggregate distortion (e.g. 30-item carts weighting order frequency 30×) while slashing warehouse storage footprint by <strong>80%</strong> compared to a flat denormalized table.
+        </div>
+      </div>
+
       <div class="grid-1-1">
         
         <!-- Table Inspector -->
-        <div class="story-card">
+        <div class="story-card" id="tableInspectorCard">
           <div class="card-top">
             <div>
               <div class="story-headline">Galaxy Constellation Schema Inspector</div>

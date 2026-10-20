@@ -658,6 +658,182 @@ body {
 }
 
 /* ==========================================================================
+   GALAXY CONSTELLATION SCHEMA ARCHITECTURE DIAGRAM (Page 7)
+   ========================================================================== */
+.galaxy-story-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.galaxy-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.galaxy-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.galaxy-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.legend-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.badge-fact {
+  background: #F3F2FD;
+  color: #6C63D9;
+  border-color: #ECEAFE;
+}
+
+.badge-conformed {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border-color: #DBEAFE;
+}
+
+.badge-cube {
+  background: #FFF7ED;
+  color: #C2410C;
+  border-color: #FFEDD5;
+}
+
+.badge-mining {
+  background: #ECFDF5;
+  color: #047857;
+  border-color: #D1FAE5;
+}
+
+.badge-fk {
+  background: #F8FAFC;
+  color: #475569;
+  border-color: #E2E8F0;
+}
+
+.galaxy-board-wrapper {
+  background: #FAFAFD;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  overflow-x: auto;
+  position: relative;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.galaxy-svg {
+  width: 100%;
+  min-width: 950px;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
+/* SVG Node Styling */
+.table-node {
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.25s ease;
+}
+
+.table-node:hover {
+  filter: drop-shadow(0 8px 24px rgba(108, 99, 217, 0.2));
+}
+
+.table-node rect.card-bg {
+  transition: stroke 0.2s ease, stroke-width 0.2s ease, fill 0.2s ease;
+}
+
+.table-node:hover rect.card-bg {
+  stroke: #6C63D9;
+  stroke-width: 2.5;
+}
+
+.table-node.selected rect.card-bg {
+  stroke: #FF6B4A;
+  stroke-width: 3;
+}
+
+.table-node.dimmed {
+  opacity: 0.22;
+}
+
+.table-node.highlighted {
+  opacity: 1;
+  filter: drop-shadow(0 10px 28px rgba(108, 99, 217, 0.3));
+}
+
+/* Schema Connector Paths */
+.schema-path {
+  fill: none;
+  transition: stroke 0.25s ease, stroke-width 0.25s ease, opacity 0.25s ease;
+}
+
+.schema-path.dimmed {
+  opacity: 0.12;
+}
+
+.schema-path.highlighted {
+  stroke: #FF6B4A !important;
+  stroke-width: 3.5 !important;
+  stroke-dasharray: 6 4;
+  animation: schemaFlow 1s linear infinite;
+  opacity: 1 !important;
+}
+
+@keyframes schemaFlow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.badge-text {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  fill: #334155;
+  pointer-events: none;
+}
+
+.badge-bg {
+  fill: #FFFFFF;
+  stroke: #E2E8F0;
+  stroke-width: 1;
+  rx: 6;
+  ry: 6;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.05));
+  transition: stroke 0.2s ease, fill 0.2s ease;
+}
+
+.schema-badge.highlighted .badge-bg {
+  stroke: #FF6B4A;
+  fill: #FFF5F3;
+}
+
+.schema-badge.highlighted .badge-text {
+  fill: #FF6B4A;
+  font-weight: 800;
+}
+
+/* ==========================================================================
    TABLES & DATA MODEL INSPECTOR (Page 7)
    ========================================================================== */
 .clean-table {
